@@ -1,12 +1,12 @@
 // TASK 1
-const countFactorial = (result) => {
-    return result == 0 ? 1 : result * countFactorial(result - 1)
+const countFactorial = (RESULT) => {
+    return RESULT == 0 ? 1 : RESULT * countFactorial(RESULT - 1)
 }
 
-const countDelimiters = (result) => {
-    const arr = []
-    for (let i = result; i >= 1; i--) {
-        if (result % i === 0) {
+const countDelimiters = (RESULT) => {
+    let arr = []
+    for (let i = RESULT; i >= 1; i--) {
+        if (RESULT % i === 0) {
             arr.push(i)
         }
     }
@@ -14,23 +14,23 @@ const countDelimiters = (result) => {
 }
 
 function enterTheNum() {
-    const result = window.prompt('Enter the number', '')
-    processTheNum(result)
+    const RESULT = window.prompt('Enter the number', '')
+    processTheNum(RESULT)
 }
 
-function processTheNum(result) {
-    if (result === null) {
+function processTheNum(RESULT) {
+    if (RESULT === null) {
         return
     }
 
-    const regExp = /0+[1-9][0-9]*/
-    const isNumValid = isFinite(result) && result >= 0 && Number(result) % 1 === 0 && !regExp.test(result)
-    const isNotEmptyOrBlank = result !== '' && !result.includes(' ')
+    const REG_EXP = /0+[1-9][0-9]*/
+    const IS_NUM_VALID = isFinite(RESULT) && RESULT >= 0 && Number(RESULT) % 1 === 0 && !REG_EXP.test(RESULT)
+    const IS_NOT_EMPTY_OR_BLANK = RESULT !== '' && !RESULT.includes(' ')
 
-    if (isNumValid && isNotEmptyOrBlank) {
-        console.log('Number: ' + result + '\nFactorial: ' + countFactorial(result)  + '\nSquare: ' + 
-        (result*result) + '\nisPrime: ' + (result % 2 !== 0) + '\nisEven: ' + (result % 2 === 0) + 
-        '\nDelimiters: ' + countDelimiters(result))
+    if (IS_NUM_VALID && IS_NOT_EMPTY_OR_BLANK) {
+        console.log('Number: ' + RESULT + '\nFactorial: ' + countFactorial(RESULT)  + '\nSquare: ' + 
+        (RESULT*RESULT) + '\nisPrime: ' + (RESULT % 2 !== 0) + '\nisEven: ' + (RESULT % 2 === 0) + 
+        '\nDelimiters: ' + countDelimiters(RESULT))
     } else {
         console.log('Incorrect input!')
         enterTheNum()
@@ -44,17 +44,17 @@ enterTheNum()
 // TASK 2
 
 function enterTheSymbol() {
-    let symbol = window.prompt('Enter something', '');
-    processTheSymbol(symbol)
+    const SYMBOL = window.prompt('Enter something', '');
+    processTheSymbol(SYMBOL)
 }
 
-function processTheSymbol(symbol) {
-    if (symbol === null) {
+function processTheSymbol(SYMBOL) {
+    if (SYMBOL === null) {
             return 
     }
-    const isLengthValid = symbol.length >= 1 && symbol.length <= 3
-    if (isLengthValid && symbol !== '' && symbol.trim()) {
-        enterNumber(symbol)
+    const IS_LENGTH_VALID = SYMBOL.length >= 1 && SYMBOL.length <= 3
+    if (IS_LENGTH_VALID && SYMBOL !== '' && SYMBOL.trim()) {
+        enterNumber(SYMBOL)
     } else {
         console.log('Incorrect input!');
         enterTheSymbol()
@@ -62,24 +62,24 @@ function processTheSymbol(symbol) {
 }
 enterTheSymbol()
 
-function enterNumber(symbol) {
-    let number = window.prompt('Enter the number', '');
-    processNumber(symbol, number)
+function enterNumber(SYMBOL) {
+    const NUMBER = window.prompt('Enter the number', '');
+    processNumber(SYMBOL, NUMBER)
 }
-function processNumber(symbol, number) {
-    if (number === null) {
+function processNumber(SYMBOL, NUMBER) {
+    if (NUMBER === null) {
         return 
     }
 
-    const regExp2 = /0+[1-9][0-9]*/
-    const isNumValid2 = isFinite(number) && number >= 0 && Number(number) % 1 === 0 && !regExp2.test(number)
-    const isNotEmptyOrBlank2 = number !== '' && !number.includes(' ')
-    const isNumInScope = (number > 0) && (number < 10)
+    const REG_EXP2 = /0+[1-9][0-9]*/
+    const IS_NUM_VALID2 = isFinite(NUMBER) && NUMBER >= 0 && Number(NUMBER) % 1 === 0 && !REG_EXP2.test(NUMBER)
+    const IS_NOT_EMPTY_OR_BLANK2 = NUMBER !== '' && !NUMBER.includes(' ')
+    const IS_NUM_IN_SCOPE = (NUMBER > 0) && (NUMBER < 10)
 
-    if (isNumValid2 && isNotEmptyOrBlank2 && isNumInScope) {
-        console.log(((symbol.trim() + ' ').repeat(number) + '\n').repeat(number))   
+    if (IS_NUM_VALID2 && IS_NOT_EMPTY_OR_BLANK2 && IS_NUM_IN_SCOPE) {
+        console.log(((SYMBOL.trim() + ' ').repeat(NUMBER) + '\n').repeat(NUMBER))   
     } else {
         console.log('Incorrect input!');
-        enterNumber(symbol)
+        enterNumber(SYMBOL)
     }
 }
