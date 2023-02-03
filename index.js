@@ -44,26 +44,26 @@ enterTheNum()
 // TASK 2
 
 function enterTheSymbol() {
-    const SYMBOL = window.prompt('Enter something', '');
+    const SYMBOL = window.prompt('Enter something', '')
     processTheSymbol(SYMBOL)
 }
 
 function processTheSymbol(SYMBOL) {
     if (SYMBOL === null) {
-            return 
+        return 
     }
     const IS_LENGTH_VALID = SYMBOL.length >= 1 && SYMBOL.length <= 3
     if (IS_LENGTH_VALID && SYMBOL !== '' && SYMBOL.trim()) {
         enterNumber(SYMBOL)
     } else {
-        console.log('Incorrect input!');
+        console.log('Incorrect input!')
         enterTheSymbol()
     }
 }
 enterTheSymbol()
 
 function enterNumber(SYMBOL) {
-    const NUMBER = window.prompt('Enter the number', '');
+    const NUMBER = window.prompt('Enter the number', '')
     processNumber(SYMBOL, NUMBER)
 }
 function processNumber(SYMBOL, NUMBER) {
@@ -79,7 +79,7 @@ function processNumber(SYMBOL, NUMBER) {
     if (IS_NUM_VALID2 && IS_NOT_EMPTY_OR_BLANK2 && IS_NUM_IN_SCOPE) {
         console.log(((SYMBOL.trim() + ' ').repeat(NUMBER) + '\n').repeat(NUMBER))   
     } else {
-        console.log('Incorrect input!');
+        console.log('Incorrect input!')
         enterNumber(SYMBOL)
     }
 }
