@@ -1,14 +1,15 @@
-function makeDeepCopy(obj) {
+function makeDeepCopy(obj) { 
     let copy = {...obj}
-
-    for (let key in obj) {
-        if (typeof obj[key] === 'object' || obj !== null) {
-            copy[key] = makeDeepCopy(obj[key])
-        } else {
-            throw new Error()
+    if (typeof obj !== 'object' || obj === null) {
+        throw new Error()
+    } else {
+        for (let key in obj) {
+            if (typeof obj[key] === 'object' && obj !== null) {
+                copy[key] = makeDeepCopy(obj[key])
+            }
+            return copy 
         }
     }
-    return copy 
 }
 
 function selectFromInterval(arr, num1, num2) {
