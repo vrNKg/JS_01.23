@@ -1,85 +1,64 @@
-// TASK 1
-const countFactorial = (RESULT) => {
-    return RESULT == 0 ? 1 : RESULT * countFactorial(RESULT - 1)
-}
+function makeDeepCopy(obj) {
+    let copy = {...obj}
 
-const countDelimiters = (RESULT) => {
-    let arr = []
-    for (let i = RESULT; i >= 1; i--) {
-        if (RESULT % i === 0) {
-            arr.push(i)
+    for (let key in obj) {
+        if (typeof obj[key] === 'object' || obj !== null) {
+            copy[key] = makeDeepCopy(obj[key])
+        } else {
+            throw new Error()
         }
     }
-    return arr
+    return copy 
 }
 
-function enterTheNum() {
-    const RESULT = window.prompt('Enter the number', '')
-    processTheNum(RESULT)
-}
+function selectFromInterval(arr, num1, num2) {
+    const isArrValid = Array.isArray(arr) && arr.every((el) => typeof el === 'number') && arr.length > 0
+    const isScopeValid = isFinite(num1) && isFinite(num2)
 
-function processTheNum(RESULT) {
-    if (RESULT === null) {
-        return
-    }
-
-    const REG_EXP = /0+[1-9][0-9]*/
-    const IS_NUM_VALID = isFinite(RESULT) && RESULT >= 0 && Number(RESULT) % 1 === 0 && !REG_EXP.test(RESULT)
-    const IS_NOT_EMPTY_OR_BLANK = RESULT !== '' && !RESULT.includes(' ')
-
-    if (IS_NUM_VALID && IS_NOT_EMPTY_OR_BLANK) {
-        console.log('Number: ' + RESULT + '\nFactorial: ' + countFactorial(RESULT)  + '\nSquare: ' + 
-        (RESULT*RESULT) + '\nisPrime: ' + (RESULT % 2 !== 0) + '\nisEven: ' + (RESULT % 2 === 0) + 
-        '\nDelimiters: ' + countDelimiters(RESULT))
+    if (isArrValid && isScopeValid) {
+        for (let element of arr) {
+            const isNumValid = isFinite(element)
+            if (isNumValid) {
+                const [from, to] = [num1, num2].sort((x, y) => x - y)
+                return arr.filter((el) => el >= from && el <= to)
+            } else {
+                throw new Error()
+            }
+        }
     } else {
-        console.log('Incorrect input!')
-        enterTheNum()
+        throw new Error()
     }
 }
 
-enterTheNum()
+function createIterable(from, to) {  
+    const isLimitValid = typeof from === 'number' && typeof to === 'number'
+    const isToGrater = to > from 
 
+    if (isLimitValid && isToGrater) {
+        return {
+            from, 
+            to,
+            [Symbol.iterator]: function() {
+                return {
+                    current: this.from,
+                    last: this.to,
 
-
-// TASK 2
-
-function enterTheSymbol() {
-    const SYMBOL = window.prompt('Enter something', '')
-    processTheSymbol(SYMBOL)
-}
-
-function processTheSymbol(SYMBOL) {
-    if (SYMBOL === null) {
-        return 
-    }
-    const IS_LENGTH_VALID = SYMBOL.length >= 1 && SYMBOL.length <= 3
-    if (IS_LENGTH_VALID && SYMBOL !== '' && SYMBOL.trim()) {
-        enterNumber(SYMBOL)
+                    next() {
+                        if (this.current <= this.last) {
+                            return { 
+                                done: false, 
+                                value: this.current++ 
+                            }
+                        } else {
+                            return { 
+                                done: true 
+                            }
+                        }
+                    }
+                }
+            }
+        }
     } else {
-        console.log('Incorrect input!')
-        enterTheSymbol()
-    }
-}
-enterTheSymbol()
-
-function enterNumber(SYMBOL) {
-    const NUMBER = window.prompt('Enter the number', '')
-    processNumber(SYMBOL, NUMBER)
-}
-function processNumber(SYMBOL, NUMBER) {
-    if (NUMBER === null) {
-        return 
-    }
-
-    const REG_EXP2 = /0+[1-9][0-9]*/
-    const IS_NUM_VALID2 = isFinite(NUMBER) && NUMBER >= 0 && Number(NUMBER) % 1 === 0 && !REG_EXP2.test(NUMBER)
-    const IS_NOT_EMPTY_OR_BLANK2 = NUMBER !== '' && !NUMBER.includes(' ')
-    const IS_NUM_IN_SCOPE = (NUMBER > 0) && (NUMBER < 10)
-
-    if (IS_NUM_VALID2 && IS_NOT_EMPTY_OR_BLANK2 && IS_NUM_IN_SCOPE) {
-        console.log(((SYMBOL.trim() + ' ').repeat(NUMBER) + '\n').repeat(NUMBER))   
-    } else {
-        console.log('Incorrect input!')
-        enterNumber(SYMBOL)
+        throw new Error()
     }
 }
