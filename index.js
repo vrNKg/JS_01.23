@@ -7,8 +7,8 @@ function makeDeepCopy(obj) {
             if (typeof obj[key] === 'object' && obj !== null) {
                 copy[key] = makeDeepCopy(obj[key])
             }
-            return copy 
         }
+        return copy 
     }
 }
 
