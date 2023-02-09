@@ -1,12 +1,4 @@
-function checkFunc(value) {
-    if (typeof value !== 'function') {
-        throw new Error('wtf')
-    }
-}
-
 Array.prototype.customFilter = function (callback, context) {
-    checkFunc(callback)
-
     let newArr = []
 
     for (let i = 0; i < this.length; i++) {
@@ -18,8 +10,6 @@ Array.prototype.customFilter = function (callback, context) {
 }
 
 function createDebounceFunction(cb, timeout) {
-    checkFunc(cb)
-    
     let timerId = 0
 
     return () => {
