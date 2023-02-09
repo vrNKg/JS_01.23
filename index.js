@@ -1,65 +1,30 @@
-function makeDeepCopy(obj) { 
-    let copy = {...obj}
-    if (typeof obj !== 'object' || obj === null) {
-        throw new Error()
-    } else {
-        for (let key in obj) {
-            if (typeof obj[key] === 'object' && obj !== null) {
-                copy[key] = makeDeepCopy(obj[key])
-            }
-        }
-        return copy 
+function checkFunc(value) {
+    if (typeof value !== 'function') {
+        throw new Error('wtf')
     }
 }
 
-function selectFromInterval(arr, num1, num2) {
-    const isArrValid = Array.isArray(arr) && arr.every((el) => typeof el === 'number') && arr.length > 0
-    const isScopeValid = isFinite(num1) && isFinite(num2)
+Array.prototype.customFilter = function (callback, context) {
+    checkFunc(callback)
 
-    if (isArrValid && isScopeValid) {
-        for (let element of arr) {
-            const isNumValid = isFinite(element)
-            if (isNumValid) {
-                const [from, to] = [num1, num2].sort((x, y) => x - y)
-                return arr.filter((el) => el >= from && el <= to)
-            } else {
-                throw new Error()
-            }
-        }
-    } else {
-        throw new Error()
+    let newArr = []
+
+    for (let i = 0; i < this.length; i++) {
+       if (callback.call(context, this[i], i, this)) {
+            newArr.push(this[i])
+       }
+    }
+    return newArr
+}
+
+function createDebounceFunction(cb, timeout) {
+    checkFunc(cb)
+    
+    let timerId = 0
+
+    return () => {
+    clearTimeout(timerId)
+    timerId = setTimeout(() => cb(), timeout)
     }
 }
 
-function createIterable(from, to) {  
-    const isLimitValid = typeof from === 'number' && typeof to === 'number'
-    const isToGrater = to > from 
-
-    if (isLimitValid && isToGrater) {
-        return {
-            from, 
-            to,
-            [Symbol.iterator]: function() {
-                return {
-                    current: this.from,
-                    last: this.to,
-
-                    next() {
-                        if (this.current <= this.last) {
-                            return { 
-                                done: false, 
-                                value: this.current++ 
-                            }
-                        } else {
-                            return { 
-                                done: true 
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    } else {
-        throw new Error()
-    }
-}
