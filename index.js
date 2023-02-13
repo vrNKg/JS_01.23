@@ -48,18 +48,11 @@ class Calculator {
     }
 }
 
-function lessThanZero(value) {
-    if (value <= 0) {
-        throw new Error()
-    }
-}
-
 class RickAndMorty {
     constructor() {}
 
     getCharacter(id) {
         checkNum(id)
-        lessThanZero(id)
 
         return fetch(`https://rickandmortyapi.com/api/character/${id}`)
             .then((character) => {
@@ -73,7 +66,6 @@ class RickAndMorty {
     
     async getEpisode(id) {
         checkNum(id)
-        lessThanZero(id)
 
         try {
             let url = await fetch(`https://rickandmortyapi.com/api/episode/${id}`)
