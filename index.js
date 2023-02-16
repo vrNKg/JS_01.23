@@ -65,9 +65,9 @@ class Stack {
     }
   }
 class Node {
-    constructor(el) {
+    constructor(el, next = null) {
         this.element = el
-        this.next = null
+        this.next = next
     }
 }
 class LinkedList {
@@ -103,7 +103,7 @@ class LinkedList {
         }
         let currentNode = this.head
         while (currentNode) {
-            if (elem !== undefined && currentNode.elem === elem) {
+            if (elem !== 'undefined' && currentNode.element === elem) {
                 return currentNode
             }
             currentNode = currentNode.next
