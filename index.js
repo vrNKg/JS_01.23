@@ -1,326 +1,264 @@
-class Stack {
-    constructor(size = 10) {
-        const isNumValid = isFinite(size) && size >= 0 && Number(size) % 1 === 0 && size <= 10
-        if (!isNumValid) {
-            throw new Error('Invalid limit value')
+// create dom
+const container = document.createElement('main')
+container.className = 'container'
+document.body.append(container)
+
+const mainWrapper = document.createElement('div')
+mainWrapper.className = 'main-wrapper'
+container.append(mainWrapper)
+
+const inputNum = document.createElement('input')
+inputNum.value = '0'
+inputNum.className = 'input-area'
+inputNum.type = 'text'
+inputNum.readOnly = 'readonly'
+inputNum.maxLength = 9
+mainWrapper.append(inputNum)
+
+const bttnsWrapper = document.createElement('section')
+bttnsWrapper.className = 'bttns-wrapper'
+mainWrapper.append(bttnsWrapper)
+
+const cleanBtn = document.createElement('button')
+cleanBtn.innerHTML = 'C'
+cleanBtn.className = 'btn clean-delete'
+bttnsWrapper.append(cleanBtn)
+
+const prosOrCons = document.createElement('button')
+prosOrCons.innerHTML = '+/-'
+prosOrCons.className = 'btn pros-or-cons'
+bttnsWrapper.append(prosOrCons)
+
+const deleteBtn = document.createElement('button')
+deleteBtn.innerHTML = 'Del'
+deleteBtn.className = 'btn clean-delete'
+deleteBtn.onclick = function() {deleteAll()}
+bttnsWrapper.append(deleteBtn)
+
+const divideBtn = document.createElement('button')
+divideBtn.innerHTML = '/'
+divideBtn.className = 'btn operator'
+bttnsWrapper.append(divideBtn)
+
+const sevenBtn = document.createElement('button')
+sevenBtn.innerHTML = '7'
+sevenBtn.className = 'btn number'
+bttnsWrapper.append(sevenBtn)
+
+const eightBtn = document.createElement('button')
+eightBtn.innerHTML = '8'
+eightBtn.className = 'btn number'
+bttnsWrapper.append(eightBtn)
+
+const nineBtn = document.createElement('button')
+nineBtn.innerHTML = '9'
+nineBtn.className = 'btn number'
+bttnsWrapper.append(nineBtn)
+
+const multipleBtn = document.createElement('button')
+multipleBtn.innerHTML = 'x'
+multipleBtn.className = 'btn operator'
+bttnsWrapper.append(multipleBtn)
+
+const fourBtn = document.createElement('button')
+fourBtn.innerHTML = '4'
+fourBtn.className = 'btn number'
+bttnsWrapper.append(fourBtn)
+
+const fiveBtn = document.createElement('button')
+fiveBtn.innerHTML = '5'
+fiveBtn.className = 'btn number'
+bttnsWrapper.append(fiveBtn)
+
+const sixBtn = document.createElement('button')
+sixBtn.innerHTML = '6'
+sixBtn.className = 'btn number'
+bttnsWrapper.append(sixBtn)
+
+const minusBtn = document.createElement('button')
+minusBtn.innerHTML = '-'
+minusBtn.className = 'btn operator'
+bttnsWrapper.append(minusBtn)
+
+const oneBtn = document.createElement('button')
+oneBtn.innerHTML = '1'
+oneBtn.className = 'btn number'
+bttnsWrapper.append(oneBtn)
+
+const twoBtn = document.createElement('button')
+twoBtn.innerHTML = '2'
+twoBtn.className = 'btn number'
+bttnsWrapper.append(twoBtn)
+
+const threeBtn = document.createElement('button')
+threeBtn.innerHTML = '3'
+threeBtn.className = 'btn number'
+bttnsWrapper.append(threeBtn)
+
+const plusBtn = document.createElement('button')
+plusBtn.innerHTML = '+'
+plusBtn.className = 'btn operator'
+bttnsWrapper.append(plusBtn)
+
+const zeroBtn = document.createElement('button')
+zeroBtn.innerHTML = '0'
+zeroBtn.className = 'btn number'
+bttnsWrapper.append(zeroBtn)
+
+const dblZeroBtn = document.createElement('button')
+dblZeroBtn.innerHTML = '00'
+dblZeroBtn.className = 'btn number'
+bttnsWrapper.append(dblZeroBtn)
+
+const dotBtn = document.createElement('button')
+dotBtn.innerHTML = '.'
+dotBtn.className = 'btn dot-btn'
+bttnsWrapper.append(dotBtn)
+
+const equalBtn = document.createElement('button')
+equalBtn.innerHTML = '='
+equalBtn.className = 'btn equal'
+bttnsWrapper.append(equalBtn)
+
+// create varaibles
+const bttns = document.querySelectorAll('.btn')
+let num1 = ''
+let num2 = ''
+let operator = ''
+
+// functions
+cleanBtn.addEventListener('click', (e) => {
+    if (operator === '') {
+        num1 = ''
+        inputNum.value = num1
+    } else {
+        num2 = ''
+        inputNum.value = num2
+    }
+})
+
+prosOrCons.addEventListener('click', () => {
+    if (operator === '') {
+        if (!inputNum.value.includes('-')) {
+            if (num1 === '') {
+                num1 = '0'
+            }
+            num1 = '-' + num1
+            inputNum.value = num1
         } else {
-            this.maxSize = size
+            num1 = Math.abs(num1)
+            inputNum.value = num1
         }
-        this.array = []
-    }
-    push(elem) {
-        if (this.array.length >= this.maxSize) {
-            throw new Error('Limit exceeded')
-        }
-        this.array.push(elem)
-    }
-
-    pop() {
-        if (this.array.length === 0) {
-            throw new Error('Empty stack')
-        }
-        return this.array.pop()
-    }
-
-    peek() {
-        if (this.array.length === 0) {
-            return null
-        }
-        return this.array[this.array.length-1]
-    }
-
-    isEmpty() {
-        return this.array.length === 0
-    }
-
-    toArray() {
-        const newArr = []
-        for (let i = 0; i < this.array.length; i++) {
-            newArr.push(this.array[i])
-        }
-        return newArr
-    }
-
-    static fromIterable(iterable) {
-        function isIterable(iterable) {
-            if (iterable == null) {
-                return false
+    } else {
+        if (!inputNum.value.includes('-')) {
+            if (num2 === '') {
+                num2 = '0'
             }
-            return typeof iterable[Symbol.iterator] === 'function'
-        }
-
-        if (isIterable) {
-            const arr = []
-            for (let element of iterable) {
-                arr.push(element)
-            }
-            let newStack = new Stack(arr.length)
-            for (let element of iterable) {
-                newStack.push(element)
-            }
-            return newStack
+            num2 = '-' + num2
+            inputNum.value = num2
         } else {
-            throw new Error('Not iterable')
+            num2 = Math.abs(num2)
+            inputNum.value = num2
         }
     }
-  }
-class Node {
-    constructor(el, next = null) {
-        this.element = el
-        this.next = next
+})
+
+function deleteAll(message = 0) {
+    num1 = ''
+    num2 = ''
+    operator = ''
+    inputNum.value = `${message}`
+}
+
+dotBtn.addEventListener('click', (e) => {
+    if (operator === '') {
+        if (!num1.includes('.')) {
+            if (num1 === '') {
+                num1 = '0'
+            }
+            num1 += '.'
+            inputNum.value = num1
+        }
+    } else {
+        if (!num2.includes('.')) {
+            if (num2 === '') {
+                num2 = '0'
+            }
+            num2 += '.'
+            inputNum.value = num2
+        }
+    }
+})
+
+document.addEventListener('keypress', (event) => {
+    if (event.key >= '0' && event.key <= '9') {
+        console.log(event.key) 
+        if (operator === '') {
+            num1 += event.key
+            inputNum.value = num1
+        } else {
+            num2 += event.key
+            inputNum.value = num2
+        }
+    }
+})
+
+function checkNum(value) {
+    if (!isFinite(value)) {
+        throw new Error()
     }
 }
-class LinkedList {
-    constructor() {
-        this.head = null
-        this.tail = null
-    }
 
-    append(elem) {
-        const newNode = new Node(elem)
-        if (!this.head || !this.tail) {
-            this.head = newNode
-            this.tail = newNode
-            return this
-        }
-        this.tail.next = newNode
-        this.tail = newNode
-        return this
-    }
+bttns.forEach(button => {
+    button.addEventListener('click', (e) => {
 
-    prepend(elem) {
-        const newNode = new Node(elem, this.head)
-        this.head = newNode
-        if (!this.tail) {
-            this.tail = newNode
-        }
-        return this
-    }
-
-    find(elem) {
-        if (!this.head) {
-            return null
-        }
-        let currentNode = this.head
-        while (currentNode) {
-            if (elem !== 'undefined' && currentNode.element === elem) {
-                return currentNode
+        if (e.target.classList.contains('number')) {
+            if (operator === '') {
+                num1 += e.target.innerHTML
+                inputNum.value = num1
+            } else {
+                num2 += e.target.innerHTML
+                if (num2.length > 9) {
+                    return num2.slice(0, 9)
+                }
+                inputNum.value = num2
             }
-            currentNode = currentNode.next
+            return
         }
-        return null
-    }
 
-    toArray() {
-        const nodes = []
-        let currentNode = this.head
-      
-        while (currentNode) {
-          nodes.push(currentNode)
-          currentNode = currentNode.next
+        if (e.target.classList.contains('operator')) {
+            operator = e.target.innerHTML
+            inputNum.value = operator
         }
-        return nodes
-    }
 
-    static fromIterable(iterable) {
-        function isIterable(iterable) {
-            if (iterable == null) {
-                return false
+        if (e.target.classList.contains('equal') ) {
+            if (num1 === '') {
+                num1 = '0'
             }
-            return typeof iterable[Symbol.iterator] === 'function'
-        }
-
-        if (isIterable) {
-            let newList = new LinkedList()
-            for (let element of iterable) {
-                newList.append(element)
+            if (num2 === '') {
+                num2 = num1
             }
-            return newList
-        } else {
-            throw new Error('Not iterable')
+            switch (operator) {
+                case '+':
+                    num1 = (+num1) + (+num2)
+                    break
+                case '-':
+                    num1 = num1 - num2
+                    break
+                case 'x':
+                    num1 = num1 * num2
+                    break
+                case '/':
+                    if (num1 === '0' || num2 === '0') {
+                        deleteAll('Error')
+                        return
+                    }
+                    num1 = num1 / num2
+                    break
+            }
+            inputNum.value = parseFloat((+num1).toFixed(8))
+            num2 = ''
+            operator = ''
         }
-    }
-}
-class Car {
-    constructor() {}
-
-    #brand = ''
-    #model = ''
-    #yearOfManufacturing = 1950
-    #maxSpeed = 100
-    #maxFuelVolume = 20
-    #fuelConsumption = 1
-    #damage = 1
-    #currentFuelVolume = 0
-    #isStarted = false
-    #mileage = 0
-    #health = 100
-
-    checkString(value, type) {
-        if (value.length < 1 || value.length > 50) {
-            throw new Error(`Invalid ${type} name`)
-        }
-    }
-
-    isNumValid(value, number1, number2){
-        return isFinite(value) && (value >= number1 && value <= number2)
-    }
-
-    get brand() {
-        return this.#brand
-    }
-
-    set brand(value) {
-        this.checkString(value, 'brand')
-        this.#brand = value
-    }
-
-    get model() {
-        return this.#model
-    }
-
-    set model(value) {
-        this.checkString(value, 'model')
-        this.#model = value
-    }
-
-    get yearOfManufacturing() {
-        return this.#yearOfManufacturing
-    }
-
-    set yearOfManufacturing(value) {
-        const currentYear = new Date().getFullYear()
-        if (!this.isNumValid(value, 1950, currentYear)) {
-            throw new Error('Invalid year of manufacturing')
-        }
-        this.#yearOfManufacturing = value
-    }
-
-    get maxSpeed() {
-        return this.#maxSpeed
-    }
-
-    set maxSpeed(value) {
-        if (!this.isNumValid(value, 100, 330)) {
-            throw new Error('Invalid max speed')
-        }
-        this.#maxSpeed = value
-    }
-
-    get maxFuelVolume() {
-        return this.#maxFuelVolume
-    }
-
-    set maxFuelVolume(value) {
-        if (!this.isNumValid(value, 20, 100)) {
-            throw new Error('Invalid max fuel volume')
-        }
-        this.#maxFuelVolume = value
-    }
-
-    get fuelConsumption() {
-        return this.#fuelConsumption
-    }
-
-    set fuelConsumption(value) {
-        if (typeof value !== 'number' || !isFinite(value) || value < 0) {
-            throw new Error('Invalid fuel consumption')
-        }
-        this.#fuelConsumption = value
-    }
-
-    get damage() {
-        return this.#damage
-    }
-
-    set damage(value) {
-        if (!this.isNumValid(value, 1, 5)) {
-            throw new Error('Invalid damage')
-        }
-        this.#damage = value
-    }
-    
-    get currentFuelVolume() {
-        return this.#currentFuelVolume
-    }
-    get isStarted() {
-        return this.#isStarted
-    }
-    get mileage() {
-        return this.#mileage
-    }
-    get health() {
-        return this.#health
-    }
-
-    start() {
-        if (this.#isStarted) {
-            throw new Error('Car has already started')
-        }
-        this.#isStarted = true
-    }
-    shutDownEngine() {
-        if (!this.#isStarted) {
-            throw new Error('Car hasn\'t started yet')
-        }
-        this.#isStarted = false
-    }
-
-    fillUpGasTank(fuelAmount) {
-        if (!isFinite(fuelAmount) || fuelAmount <= 0) {
-            throw new Error('Invalid fuel amount')
-        }
-        if (this.#currentFuelVolume + fuelAmount > this.#maxFuelVolume) {
-            throw new Error('Too much fuel')
-        }
-        if (this.#isStarted) {
-            throw new Error('You have to shut down your car first')
-        }
-        this.#currentFuelVolume += fuelAmount
-    }
-
-    drive(speed, hours) {
-        const distance = speed * hours
-        const fuelNeeds = distance * this.#fuelConsumption / 100
-        const healthNeeds = distance * this.damage / 100
-
-        if (!isFinite(speed) || speed <= 0) {
-            throw new Error('Invalid speed')
-        }
-        if (!isFinite(hours) || hours <= 0) {
-            throw new Error('Invalid duration')
-        }
-        if (speed > this.#maxSpeed) {
-            throw new Error('Car can\'t go this fast')
-        }
-        if (!this.#isStarted) {
-            throw new Error('You have to start your car first')
-        }
-        if (fuelNeeds > this.#currentFuelVolume) {
-            throw new Error('You don\'t have enough fuel')
-        }
-        if ((this.#health - healthNeeds) <= 0) {
-            throw new Error('Your car won\'t make it')
-        }
-        this.#currentFuelVolume -= fuelNeeds
-        this.#health -= healthNeeds
-        this.#mileage += distance
-    }
-
-    repair() {
-        if (this.#isStarted) {
-            throw new Error('You have to shut down your car first')
-        } else if (this.#currentFuelVolume === 0) {
-            throw new Error('You have to fill up your gas tank first')
-        } else {
-            this.#health = 100
-        }
-    }
-
-    getFullAmount() {
-        if (this.currentFuelVolume > 0) {
-            return this.#maxFuelVolume - this.#currentFuelVolume
-        }
-        return this.#currentFuelVolume = 0
-    }
-}
+    })
+})
