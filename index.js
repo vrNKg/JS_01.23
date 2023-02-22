@@ -202,12 +202,6 @@ document.addEventListener('keypress', (event) => {
     }
 })
 
-function checkNum(value) {
-    if (!isFinite(value)) {
-        throw new Error()
-    }
-}
-
 bttns.forEach(button => {
     button.addEventListener('click', (e) => {
 
