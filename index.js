@@ -192,7 +192,6 @@ dotBtn.addEventListener('click', (e) => {
 
 document.addEventListener('keypress', (event) => {
     if (event.key >= '0' && event.key <= '9') {
-        console.log(event.key) 
         if (operator === '') {
             num1 += event.key
             inputNum.value = num1
